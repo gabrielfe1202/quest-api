@@ -22,6 +22,7 @@ async function seed() {
     .values([
       { title: 'Nivel 1', order: 1 },
       { title: 'Nivel 2', order: 2 },
+      { title: 'Nivel 3', order: 3 },
     ])
     .returning()
 
@@ -50,6 +51,18 @@ async function seed() {
         title: 'Qual a cor do céu?',
         order: 2,
         levelId: resultLevel[1].id,
+        points: 20,
+      },
+      {
+        title: 'Quanto vale 2 + 2 ?',
+        order: 1,
+        levelId: resultLevel[2].id,
+        points: 5,
+      },
+      {
+        title: 'Qual a cor do céu?',
+        order: 2,
+        levelId: resultLevel[2].id,
         points: 20,
       },
     ])
