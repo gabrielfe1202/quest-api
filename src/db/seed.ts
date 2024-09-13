@@ -23,6 +23,8 @@ async function seed() {
       { title: 'Nivel 1', order: 1 },
       { title: 'Nivel 2', order: 2 },
       { title: 'Nivel 3', order: 3 },
+      { title: 'Nivel 4', order: 4 },
+      { title: 'Nivel 5', order: 5 },
     ])
     .returning()
 
