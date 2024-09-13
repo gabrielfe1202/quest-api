@@ -14,6 +14,7 @@ export const questions = pgTable('questions', {
     .primaryKey()
     .$default(() => createId()),
   title: text('title').notNull(),
+  type: text('type').notNull(),
   order: integer('order').notNull(),
   points: integer('points').notNull(),
   levelId: text('level_id')

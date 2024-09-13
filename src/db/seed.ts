@@ -33,30 +33,35 @@ async function seed() {
         title: 'Qual a capital da França?',
         order: 1,
         levelId: resultLevel[0].id,
+        type: 'singleOption',
         points: 10,
       },
       {
         title: 'Quem escreveu a saga "O senhor dos aneis"?',
         order: 2,
         levelId: resultLevel[0].id,
+        type: 'singleOption',
         points: 5,
       },
       {
         title: 'Quanto vale 2 + 2 ?',
         order: 1,
         levelId: resultLevel[1].id,
+        type: 'singleOption',
         points: 5,
       },
       {
         title: 'Qual a cor do céu?',
         order: 2,
         levelId: resultLevel[1].id,
+        type: 'singleOption',
         points: 20,
       },
       {
         title: 'Quanto vale 2 + 2 ?',
         order: 1,
         levelId: resultLevel[2].id,
+        type: 'multipeOption',
         points: 5,
       },
       {
@@ -64,6 +69,7 @@ async function seed() {
         order: 2,
         levelId: resultLevel[2].id,
         points: 20,
+        type: 'singleOption',
       },
     ])
     .returning()
@@ -164,6 +170,30 @@ async function seed() {
       order: 4,
       correct: true,
       questionId: resultQuention[3].id,
+    },
+    {
+      title: '4',
+      order: 1,
+      correct: true,
+      questionId: resultQuention[4].id,
+    },
+    {
+      title: '3',
+      order: 2,
+      correct: false,
+      questionId: resultQuention[4].id,
+    },
+    {
+      title: '8',
+      order: 3,
+      correct: false,
+      questionId: resultQuention[4].id,
+    },
+    {
+      title: '5',
+      order: 4,
+      correct: false,
+      questionId: resultQuention[4].id,
     },
   ])
 
