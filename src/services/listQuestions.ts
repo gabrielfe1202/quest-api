@@ -1,6 +1,6 @@
 import { eq, sql } from 'drizzle-orm'
 import { db } from '../db'
-import { questions, questionsOptions } from '../db/schema'
+import { contents, questions, questionsOptions } from '../db/schema'
 
 class option {
   constructor(
@@ -26,15 +26,17 @@ export async function listQuestions(id: string) {
     .select()
     .from(questions)
     .where(eq(questions.levelId, id))
-    .orderBy(questions.order)
 
   const optionsResult = await db
     .select()
     .from(questionsOptions)
     .orderBy(questionsOptions.order)
 
+  const contentsResult = await db.select().from(contents)
+
   return {
     questions: questionsResult,
     options: optionsResult,
+    contents: contentsResult
   }
 }

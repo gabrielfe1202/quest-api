@@ -27,7 +27,7 @@ export async function saveUserResponse(responses: userResponseRequest) {
   await db.insert(userResponses).values({
     optionId: responses.option,
     questionsId: responses.question,
-    points: optResult[0].correct ? questResult[0].points : 0,
+    points: optResult[0].points,
     userId: responses.user,
   })
 

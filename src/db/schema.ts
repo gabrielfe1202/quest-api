@@ -14,12 +14,14 @@ export const questions = pgTable('questions', {
     .primaryKey()
     .$default(() => createId()),
   title: text('title').notNull(),
-  type: text('type').notNull(),
-  order: integer('order').notNull(),
-  points: integer('points').notNull(),
+  type: text('type').notNull(),  
   levelId: text('level_id')
     .references(() => levels.id)
     .notNull(),
+  nextQuestionId: text('next_question_id'),
+  nextContetId: text('next_content_id'),
+  previusQuestionId: text('previus_question_id'),
+  previusContetId: text('previus_content_id')
 })
 
 export const questionsOptions = pgTable('questios_options', {
@@ -28,10 +30,11 @@ export const questionsOptions = pgTable('questios_options', {
     .$default(() => createId()),
   title: text('title').notNull(),
   order: integer('order').notNull(),
-  correct: boolean('correct').notNull(),
+  correct: boolean('correct').notNull(),  
+  points: integer('points').notNull(),
   questionId: text('question_id')
     .references(() => questions.id)
-    .notNull(),
+    .notNull(),    
 })
 
 export const user = pgTable('user', {
@@ -75,4 +78,17 @@ export const userLevelCompletion = pgTable('user_level_completion', {
   createdAt: timestamp('created_at', { withTimezone: true })
     .notNull()
     .defaultNow(),
+})
+
+export const contents = pgTable('contents', {
+  id: text('id')
+    .primaryKey()
+    .$default(() => createId()),
+  title: text('title').notNull(),
+  text: text('text'),
+  image: text('image'),
+  nextQuestionId: text('next_question_id'),
+  nextContetId: text('next_content_id'),
+  previusQuestionId: text('previus_question_id'),
+  previusContetId: text('previus_content_id')
 })
