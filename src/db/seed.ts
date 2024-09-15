@@ -9,7 +9,6 @@ import {
   userLevelCompletion,
   userResponses,
 } from './schema'
-import dayjs from 'dayjs'
 
 async function seed() {  
   await db.delete(contents)
@@ -266,6 +265,12 @@ async function seed() {
   .update(questions)
   .set({nextQuestionId: resultQuention[3].id})
   .where(eq(questions.id,resultQuention[2].id))
+
+  
+  await db
+  .update(questions)
+  .set({previusQuestionId: resultQuention[2].id})
+  .where(eq(questions.id,resultQuention[3].id))
   
   await db
   .update(questions)
