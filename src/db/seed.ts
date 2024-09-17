@@ -23,10 +23,10 @@ async function seed() {
     .insert(levels)
     .values([
       { title: 'Nivel 1', order: 1 },
-      { title: 'Nivel 2', order: 2 },
+      { title: 'Nivel 2', order: 2, iconImage: '/src/assets/island.png' },
       { title: 'Nivel 3', order: 3 },
       { title: 'Nivel 4', order: 4 },
-      { title: 'Nivel 5', order: 5 },
+      { title: 'Nivel 5', order: 5, iconImage: '/src/assets/island.png' },
     ])
     .returning()
 
@@ -239,7 +239,10 @@ async function seed() {
 
   await db
     .insert(user)
-    .values({ name: 'gabriel', email: 'gabriel@o2ew.com.br', password: '1234' })
+    .values([
+      { name: 'gabriel', email: 'gabriel@o2ew.com.br', password: '1234' },
+      { name: 'teste', email: 'teste@teste.com',password: '1234' }
+    ])
 
   const contentsResult = await db
     .insert(contents)

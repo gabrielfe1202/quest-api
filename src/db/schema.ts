@@ -7,6 +7,7 @@ export const levels = pgTable('levels', {
     .$default(() => createId()),
   title: text('title').notNull(),
   order: integer('order').notNull(),
+  iconImage: text('icon_image').$default(() => '/src/assets/ilha.png')
 })
 
 export const questions = pgTable('questions', {
