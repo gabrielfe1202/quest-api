@@ -27,6 +27,7 @@ async function seed() {
       { title: 'Nivel 3', order: 3 },
       { title: 'Nivel 4', order: 4 },
       { title: 'Nivel 5', order: 5, iconImage: '/src/assets/island.png' },
+      { title: 'Nivel 6', order: 6, active: false },
     ])
     .returning()
 
