@@ -3,7 +3,7 @@ import { db } from '../db'
 import { levels, userLevelCompletion } from '../db/schema'
 
 export async function listLevel(userId: string) {
-  const Levels = await db.select().from(levels).orderBy(desc(levels.order))
+  const Levels = await db.select().from(levels).where(eq(levels.active, true)).orderBy(desc(levels.order))
   const Completions = await db
     .select()
     .from(userLevelCompletion)
