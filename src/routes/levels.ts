@@ -3,8 +3,9 @@ import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { createLevel } from '../services/createLevel'
 import { listLevel } from '../services/listLevel'
 import { db } from '../db'
-import { contents, levels, questions } from '../db/schema'
+import { contents, levels, questions, questionsOptions } from '../db/schema'
 import { eq } from 'drizzle-orm'
+import { Option, Question } from '../models/QuestionResponse'
 
 const schema = z.object({
   title: z.string(),
@@ -81,9 +82,22 @@ export const levelsRoute: FastifyPluginAsyncZod = async app => {
     const { levelId } = schemaLevel.parse(request.params)
     const levelResult = (await db.select().from(levels)).find(x => x.id === levelId)
     const questResult = await db.select().from(questions).where(eq(questions.levelId, levelId))
+    const optionsResult = await db.select().from(questionsOptions).orderBy(questionsOptions.order)
     const contsResult = await db.select().from(contents)
 
-    return retry.status(200).send({ level: levelResult, questions: questResult, contents: contsResult })
+    const questResponse: Question[] = []
+
+    await questResult.map(async (item: any) => {
+      const opts: Option[] = []      
+      optionsResult.filter(x => x.questionId === item.id).map((item2) => {
+        opts.push(new Option(item2))
+      })
+      const newQuest = new Question(item)
+      newQuest.options = opts
+      questResponse.push(newQuest)
+    })
+
+    return retry.status(200).send({ level: levelResult, questions: questResponse, contents: contsResult })
   })
 
   app.put('/Level/Edit/:levelId', async (request, reply) => {
