@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
-import { Login } from '../services/Login'
+import { adminLogin, Login } from '../services/Login'
 
 const schema = z.object({
   email: z.string(),
@@ -14,6 +14,19 @@ export const loginRoute: FastifyPluginAsyncZod = async app => {
     console.log(request.body)
 
     const result = await Login({
+      email,
+      password,
+    })
+
+    return result
+  })
+
+  app.post('/AdminLogin', async request => {
+    const { email, password } = schema.parse(request.body)
+
+    console.log(request.body)
+
+    const result = await adminLogin({
       email,
       password,
     })

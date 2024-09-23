@@ -16,7 +16,7 @@ export const questions = pgTable('questions', {
     .primaryKey()
     .$default(() => createId()),
   title: text('title').notNull(),
-  type: text('type').notNull(),  
+  type: text('type').notNull(),
   levelId: text('level_id')
     .references(() => levels.id)
     .notNull(),
@@ -32,11 +32,11 @@ export const questionsOptions = pgTable('questios_options', {
     .$default(() => createId()),
   title: text('title').notNull(),
   order: integer('order').notNull(),
-  correct: boolean('correct').notNull(),  
+  correct: boolean('correct').notNull(),
   points: integer('points').notNull(),
   questionId: text('question_id')
     .references(() => questions.id)
-    .notNull(),    
+    .notNull(),
 })
 
 export const user = pgTable('user', {
@@ -46,6 +46,9 @@ export const user = pgTable('user', {
   name: text('name').notNull(),
   email: text('email').notNull(),
   password: text('password').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true })
+    .notNull()
+    .defaultNow(),
 })
 
 export const userResponses = pgTable('user_responses', {
@@ -93,4 +96,13 @@ export const contents = pgTable('contents', {
   nextContetId: text('next_content_id'),
   previusQuestionId: text('previus_question_id'),
   previusContetId: text('previus_content_id')
+})
+
+export const usersAdmin = pgTable('users_admin', {
+  id: text('id')
+    .primaryKey()
+    .$default(() => createId()),
+  name: text('name').notNull(),
+  email: text('email').notNull(),
+  password: text('password').notNull(),
 })

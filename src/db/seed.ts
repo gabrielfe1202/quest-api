@@ -8,9 +8,10 @@ import {
   user,
   userLevelCompletion,
   userResponses,
+  usersAdmin,
 } from './schema'
 
-async function seed() {  
+async function seed() {
   await db.delete(contents)
   await db.delete(userResponses)
   await db.delete(userLevelCompletion)
@@ -35,32 +36,32 @@ async function seed() {
     .insert(questions)
     .values([
       {
-        title: 'Qual a capital da França?',    
+        title: 'Qual a capital da França?',
         levelId: resultLevel[0].id,
-        type: 'singleOption',        
+        type: 'singleOption',
       },
       {
-        title: 'Quem escreveu a saga "O senhor dos aneis"?',        
+        title: 'Quem escreveu a saga "O senhor dos aneis"?',
         levelId: resultLevel[0].id,
-        type: 'singleOption',      
+        type: 'singleOption',
       },
       {
-        title: 'Quanto vale 2 + 2 ?',    
+        title: 'Quanto vale 2 + 2 ?',
         levelId: resultLevel[1].id,
         type: 'singleOption',
       },
       {
-        title: 'Qual a cor do céu?',        
+        title: 'Qual a cor do céu?',
         levelId: resultLevel[1].id,
         type: 'singleOption',
       },
       {
-        title: 'Quanto vale 2 + 2 ?',    
+        title: 'Quanto vale 2 + 2 ?',
         levelId: resultLevel[2].id,
         type: 'multipeOption',
       },
       {
-        title: 'Qual a cor do céu?',        
+        title: 'Qual a cor do céu?',
         levelId: resultLevel[2].id,
         type: 'singleOption',
       },
@@ -242,7 +243,15 @@ async function seed() {
     .insert(user)
     .values([
       { name: 'gabriel', email: 'gabriel@o2ew.com.br', password: '1234' },
-      { name: 'teste', email: 'teste@teste.com',password: '1234' }
+      { name: 'teste', email: 'teste@teste.com', password: '1234' }
+    ])
+
+
+  await db
+    .insert(usersAdmin)
+    .values([
+      { name: 'gabriel', email: 'gabriel@o2ew.com.br', password: '1234' },
+      { name: 'teste', email: 'teste@teste.com', password: '1234' }
     ])
 
   const contentsResult = await db
@@ -256,30 +265,30 @@ async function seed() {
     .returning()
 
   await db
-  .update(questions)
-  .set({nextContetId: contentsResult[0].id})
-  .where(eq(questions.id,resultQuention[0].id))
+    .update(questions)
+    .set({ nextContetId: contentsResult[0].id })
+    .where(eq(questions.id, resultQuention[0].id))
 
   await db
-  .update(questions)
-  .set({previusContetId: contentsResult[0].id})
-  .where(eq(questions.id,resultQuention[1].id))
+    .update(questions)
+    .set({ previusContetId: contentsResult[0].id })
+    .where(eq(questions.id, resultQuention[1].id))
 
   await db
-  .update(questions)
-  .set({nextQuestionId: resultQuention[3].id})
-  .where(eq(questions.id,resultQuention[2].id))
+    .update(questions)
+    .set({ nextQuestionId: resultQuention[3].id })
+    .where(eq(questions.id, resultQuention[2].id))
 
-  
+
   await db
-  .update(questions)
-  .set({previusQuestionId: resultQuention[2].id})
-  .where(eq(questions.id,resultQuention[3].id))
-  
+    .update(questions)
+    .set({ previusQuestionId: resultQuention[2].id })
+    .where(eq(questions.id, resultQuention[3].id))
+
   await db
-  .update(questions)
-  .set({nextQuestionId: resultQuention[5].id, previusContetId: resultQuention[3].id})
-  .where(eq(questions.id,resultQuention[4].id))
+    .update(questions)
+    .set({ nextQuestionId: resultQuention[5].id, previusContetId: resultQuention[3].id })
+    .where(eq(questions.id, resultQuention[4].id))
 
 }
 

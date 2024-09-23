@@ -46,6 +46,8 @@ const itemSchema = z.object({
 const mainSchema = z.object({
   title: z.string(),
   active: z.boolean(),
+  order: z.number(),
+  reorderQuests: z.boolean(),
   questions: z.array(itemSchema),
 });
 
@@ -87,8 +89,8 @@ export const levelsRoute: FastifyPluginAsyncZod = async app => {
 
     const questResponse: Question[] = []
 
-    await questResult.map(async (item: any) => {
-      const opts: Option[] = []      
+    await questResult.map(async (item) => {
+      const opts: Option[] = []
       optionsResult.filter(x => x.questionId === item.id).map((item2) => {
         opts.push(new Option(item2))
       })
@@ -106,29 +108,31 @@ export const levelsRoute: FastifyPluginAsyncZod = async app => {
 
     try {
 
-      const updatedLevel = await db.update(levels).set({ title: data.title, active: data.active }).where(eq(levels.id, levelId)).returning()
+      const updatedLevel = await db.update(levels).set({ title: data.title, active: data.active, order: data.order }).where(eq(levels.id, levelId)).returning()
 
       if (updatedLevel.length === 0) {
         return reply.status(404).send({ msg: 'Level not found' })
       }
 
-      data.questions.map(async (item) => {
-        if (item.quest != null && item.quest !== undefined) {
-          await db.update(questions).set({
-            nextContetId: item.quest.nextContetId,
-            nextQuestionId: item.quest.nextQuestionId,
-            previusContetId: item.quest.previusContetId,
-            previusQuestionId: item.quest.previusQuestionId
-          }).where(eq(questions.id, item.quest.id))
-        } else if (item.content !== null && item.content !== undefined) {
-          await db.update(contents).set({
-            nextContetId: item.content.nextContetId,
-            nextQuestionId: item.content.nextQuestionId,
-            previusContetId: item.content.previusContetId,
-            previusQuestionId: item.content.previusQuestionId
-          }).where(eq(contents.id, item.content.id))
-        }
-      })
+      if (data.reorderQuests) {
+        data.questions.map(async (item) => {
+          if (item.quest != null && item.quest !== undefined) {
+            await db.update(questions).set({
+              nextContetId: item.quest.nextContetId,
+              nextQuestionId: item.quest.nextQuestionId,
+              previusContetId: item.quest.previusContetId,
+              previusQuestionId: item.quest.previusQuestionId
+            }).where(eq(questions.id, item.quest.id))
+          } else if (item.content !== null && item.content !== undefined) {
+            await db.update(contents).set({
+              nextContetId: item.content.nextContetId,
+              nextQuestionId: item.content.nextQuestionId,
+              previusContetId: item.content.previusContetId,
+              previusQuestionId: item.content.previusQuestionId
+            }).where(eq(contents.id, item.content.id))
+          }
+        })
+      }
 
       return reply.status(200).send(updatedLevel[0]);
 
