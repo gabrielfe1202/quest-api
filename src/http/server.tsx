@@ -5,6 +5,7 @@ import { questionsRoute } from '../routes/Questions'
 import { loginRoute } from '../routes/Login'
 import { responsesRoute } from '../routes/Responses'
 import { userInformationRoute } from '../routes/userInformation'
+import { optionRoute } from '../routes/Options'
 
 const app = fastify()
 
@@ -17,6 +18,7 @@ app.register(questionsRoute)
 app.register(loginRoute)
 app.register(responsesRoute)
 app.register(userInformationRoute)
+app.register(optionRoute)
 
 app
   .listen({

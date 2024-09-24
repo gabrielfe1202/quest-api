@@ -1,7 +1,7 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import z from 'zod'
 import { db } from '../db'
-import { user, userResponses } from '../db/schema'
+import { user, userResponses, usersAdmin } from '../db/schema'
 import { eq, sql } from 'drizzle-orm'
 
 const schema = z.object({
@@ -68,5 +68,13 @@ export const userInformationRoute: FastifyPluginAsyncZod = async app => {
         userEmail,
       },
     }
+  })
+
+  app.get('/AdminInfo/:userId', async (request, reply) => {
+    const { userId } = schema.parse(request.params)
+
+    const user = (await db.select().from(usersAdmin)).find(x => x.id === userId)
+
+    return user
   })
 }
