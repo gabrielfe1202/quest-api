@@ -11,6 +11,8 @@ const app = fastify()
 
 app.register(fastifyCors, {
   origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Custom-Header'],
 })
 
 app.addHook('onSend', (request, reply, payload, done) => {
