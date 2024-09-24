@@ -13,6 +13,11 @@ app.register(fastifyCors, {
   origin: '*',
 })
 
+app.addHook('onSend', (request, reply, payload, done) => {
+  console.log(reply.getHeaders());
+  done();
+});
+
 app.register(levelsRoute)
 app.register(questionsRoute)
 app.register(loginRoute)
