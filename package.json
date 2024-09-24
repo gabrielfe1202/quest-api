@@ -2,10 +2,16 @@
   "name": "quest-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "homepage": "/api/",
+  "main": "dist/index.js",
+  "engines": {
+    "node": "20"
+  },
   "scripts": {
+    "build": "tsup src",
     "dev": "tsx watch --env-file .env src/http/server.tsx",
-    "seed": "tsx --env-file .env src/db/seed.ts"
+    "seed": "tsx --env-file .env src/db/seed.ts",
+    "start": "node dist/http/server.js"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +33,7 @@
     "fastify-cors": "^6.1.0",
     "fastify-type-provider-zod": "^2.0.0",
     "postgres": "^3.4.4",
+    "tsup": "^8.3.0",
     "zod": "^3.23.8"
   }
 }

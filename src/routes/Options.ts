@@ -13,12 +13,25 @@ const schema = z.object({
     questionId: z.string(),
 })
 
+const shemaList = z.object({
+    questionId: z.string()
+})
+
 export const optionRoute: FastifyPluginAsyncZod = async app => {
+
+    app.get('/Options/:questionId', async (request, reply) => {
+        const { questionId } = shemaList.parse(request.params)
+
+        const optionsResult = await db.select().from(questionsOptions).where(eq(questionsOptions.questionId, questionId))
+
+        return reply.status(200).send({ options: optionsResult })
+    })
+
     app.post('/Option', async (request, reply) => {
         console.log(request.body)
         const { id, title, questionId } = schema.parse(request.body)
         let result = null
-        if (id == "0") {
+        if (id === "0") {
             result = await db.insert(questionsOptions).values({ title: title, correct: false, points: 5, questionId: questionId, order: 2 }).returning()
         } else {
             result = await db.update(questionsOptions).set({ title: title }).where(eq(questionsOptions.id, id)).returning()
