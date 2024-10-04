@@ -24,10 +24,10 @@ async function seed() {
     .insert(levels)
     .values([
       { title: 'Nivel 1', order: 1 },
-      { title: 'Nivel 2', order: 2, iconImage: '/src/assets/island.png' },
+      { title: 'Nivel 2', order: 2, iconImage: '/quiz/island.png' },
       { title: 'Nivel 3', order: 3 },
       { title: 'Nivel 4', order: 4 },
-      { title: 'Nivel 5', order: 5, iconImage: '/src/assets/island.png' },
+      { title: 'Nivel 5', order: 5, iconImage: '/quiz/island.png' },
       { title: 'Nivel 6', order: 6, active: false },
     ])
     .returning()

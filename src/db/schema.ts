@@ -8,7 +8,7 @@ export const levels = pgTable('levels', {
   title: text('title').notNull(),
   active: boolean('active').notNull().$default(() => true),
   order: integer('order').notNull(),
-  iconImage: text('icon_image').$default(() => '/src/assets/ilha.png')
+  iconImage: text('icon_image').$default(() => '/quiz/ilha.png')
 })
 
 export const questions = pgTable('questions', {

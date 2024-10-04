@@ -12,7 +12,7 @@ class userPoint {
   constructor(
     public usuario_id: string,
     public total_pontos: unknown | string
-  ) {}
+  ) { }
 }
 
 export const userInformationRoute: FastifyPluginAsyncZod = async app => {
@@ -21,6 +21,7 @@ export const userInformationRoute: FastifyPluginAsyncZod = async app => {
     const { userId } = schema.parse(request.params)
 
     const resultUsers = await db.select().from(user)
+    console.log('aa', resultUsers)
 
     const resultados = await db
       .select({
@@ -57,8 +58,8 @@ export const userInformationRoute: FastifyPluginAsyncZod = async app => {
         ? listPoints.filter(x => x.usuario_id === userId)[0].total_pontos
         : '0'
 
-    const userName = resultUsers.filter(x => x.id === userId)[0].name
-    const userEmail = resultUsers.filter(x => x.id === userId)[0].email
+    const userName = resultUsers.find(x => x.id === userId)?.name
+    const userEmail = resultUsers.find(x => x.id === userId)?.email
 
     return {
       score: typeof score === 'string' ? Number.parseInt(score) : 0,
